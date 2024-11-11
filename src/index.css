@@ -1,3 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Arima:wght@100..700&family=Edu+VIC+WA+NT+Beginner:wght@400..700&family=Teko:wght@300..700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Arima:wght@100..700&family=Edu+VIC+WA+NT+Beginner:wght@400..700&family=Kablammo&family=Teko:wght@300..700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Arima:wght@100..700&family=DynaPuff:wght@400..700&family=Edu+VIC+WA+NT+Beginner:wght@400..700&family=Kablammo&family=Teko:wght@300..700&display=swap');
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +14,42 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: black;
+  color: black;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.text{
+   font-family: 'Arima', sans-serif;;
+}
+.logoHeading{
+  font-family: 'Kablammo', sans-serif;;
+}
+
+.sectionHeading{
+  font-family: "DynaPuff", system-ui;
+}
+
+.balls {
+  animation: bounce 2s ease infinite;
+}
+@keyframes bounce {
+  0% {
+    transform: translateY(0);  /* Starting position */
+  }
+  20% {
+    transform: translateY(-30px);  /* Upward movement */
+  }
+  50% {
+    transform: translateY(0);  /* Back to original */
+  }
+  70% {
+    transform: translateY(-15px);  /* Smaller bounce */
+  }
+  100% {
+    transform: translateY(0);  /* Resting position */
+  }
 }
