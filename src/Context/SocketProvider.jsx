@@ -9,9 +9,10 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = (props) => {
-  const socket = useMemo(() => io(process.env.REACT_APP_LEARNSPHERE_BASE_URL,{
+  const socket = useMemo(() => io("https://learnsphere-backend-4.onrender.com",{
     transports: ["websocket"], // Ensures WebSocket is used
     withCredentials: true, // Allows credentials if required
+    
   }), []);
 
   return (

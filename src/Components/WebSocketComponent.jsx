@@ -155,6 +155,7 @@ console.log("chatid",)
       console.log("Error sending message:", error);
     }
   };
+  
 // for recieving message
   useEffect(() => {
     socket.on('receiveMessage', (newMessage) => {
