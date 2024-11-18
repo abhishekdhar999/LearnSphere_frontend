@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import VideoCall from '../Components/VideoCall';
+import { AiTwotoneMessage } from "react-icons/ai";
 export default function Workplace() {
   const [socket, setSocket] = useState(null);
   const [participants, setParticipants] = useState([]);
@@ -102,6 +103,8 @@ const [showRemove, setShowRemove] = useState({});
 
     getMessages();
   }, [community.groupChatId]);
+
+
   // Handle sending messages
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return; // Do nothing if message is empty
@@ -176,6 +179,10 @@ console.log("msg ",response.data)
         console.log('Received WebSocket message:', receivedMessage);
 
 
+        // if (receivedMessage.receiverId === userId) {
+        //   // Trigger notification
+        //   displayNotification(receivedMessage.content);
+        // }
         
         setMessages((prevMessages) => [
           ...prevMessages,
@@ -245,6 +252,56 @@ communityId:community._id
     window.location.reload();
   }
 
+
+
+
+
+  // for notification
+  // useEffect(() => {
+  //   const ws = new WebSocket(process.env.REACT_APP_WEB_SOCKET_URL);
+  //   setSocket(ws);
+
+  //   ws.onmessage = (event) => {
+  //     try {
+  //       const receivedMessage = JSON.parse(event.data);
+        
+  //       // Check if the message is intended for the current user
+  //       if (receivedMessage.receiverId === userId) {
+  //         // Trigger notification
+  //         displayNotification(receivedMessage.content);
+  //       }
+        
+  //       // Add message to the list for displaying in UI if needed
+  //       setMessages((prevMessages) => [
+  //         ...prevMessages,
+  //         { sender: receivedMessage.sender, content: receivedMessage.content },
+  //       ]);
+  //     } catch (error) {
+  //       console.error('Error parsing WebSocket message:', error);
+  //     }
+  //   };
+  //   return () => {
+  //     ws.close();
+  //   };
+  // }, [userId]);
+
+  // const displayNotification = (messageContent) => {
+  //   if (Notification.permission === "granted") {
+  //     new Notification("New Message", {
+  //       body: messageContent,
+  //       icon: <AiTwotoneMessage /> // Optional, replace with actual icon path
+  //     });
+  //   } else if (Notification.permission !== "denied") {
+  //     Notification.requestPermission().then((permission) => {
+  //       if (permission === "granted") {
+  //         new Notification("New Message", {
+  //           body: messageContent,
+  //           icon: <AiTwotoneMessage />
+  //         });
+  //       }
+  //     });
+  //   }
+  // };
  
 
   return (

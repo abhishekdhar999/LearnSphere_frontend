@@ -109,24 +109,26 @@ export default function SignupUser() {
   };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-xl">
+        <div className="min-h-screen flex items-center justify-center ">
+
+          <div className='w-1/2'>
+            {/* Form heading */}
+            <h1 className="text-4xl text-transparent bg-clip-text bg-gradient-to-r text from-white to-blue-700  font-bold text-center">
+  REGISTER USER
+  </h1>
+            <img src="/rb_7965.png" alt="" />
+          </div>
+      <div className="w-1/2 max-w-md p-8 space-y-4  rounded-xl shadow-3xl shadow-cyan-400">
         {/* Top image */}
-        <div className="flex justify-center mb-6">
-          <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDN8fHVzZXIlMjBhdmF0YXJ8ZW58MHx8fHwxNjE5NDc5Mjg0&ixlib=rb-1.2.1&q=80&w=1080"
-            alt="Signup Visual"
-            className="w-32 h-32 rounded-full border-4 border-pink-500"
-          />
-        </div>
+       
 
         {/* Form heading */}
-        <h1 className="text-4xl font-bold text-center text-gray-800">User Signup</h1>
+        {/* <h1 className="text-4xl font-bold text-center text-gray-800">User Signup</h1> */}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6 text-black">
           <div className="relative z-0 w-full group">
-            <label htmlFor="floating_name" className="block mb-2 text-sm font-medium text-gray-700">Name</label>
+            <label htmlFor="floating_name" className="block mb-2 text-sm font-medium text-white">Name</label>
             <input
               type="text"
               name="name"
@@ -139,7 +141,7 @@ export default function SignupUser() {
           </div>
 
           <div className="relative z-0 w-full group">
-            <label htmlFor="floating_email" className="block mb-2 text-sm font-medium text-gray-700">Email Address</label>
+            <label htmlFor="floating_email" className="block mb-2 text-sm font-medium text-white">Email Address</label>
             <input
               type="email"
               name="email"
@@ -152,7 +154,7 @@ export default function SignupUser() {
           </div>
 
           <div className="relative z-0 w-full group">
-            <label htmlFor="floating_password" className="block mb-2 text-sm font-medium text-gray-700">Password</label>
+            <label htmlFor="floating_password" className="block mb-2 text-sm font-medium text-white">Password</label>
             <input
               type="password"
               name="password"
@@ -165,7 +167,7 @@ export default function SignupUser() {
           </div>
 
           <div className="relative z-0 w-full group">
-            <label htmlFor="floating_phone" className="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
+            <label htmlFor="floating_phone" className="block mb-2 text-sm font-medium text-white">Phone Number</label>
             <input
               type="tel"
               name="phoneNumber"
@@ -178,7 +180,7 @@ export default function SignupUser() {
           </div>
 
           <div className="relative z-0 w-full group">
-            <label htmlFor="floating_avatar" className="block mb-2 text-sm font-medium text-gray-700">Avatar</label>
+            <label htmlFor="floating_avatar" className="block mb-2 text-sm font-medium text-white">Avatar</label>
             <input
               type="file"
               name="avatar"
@@ -190,13 +192,13 @@ export default function SignupUser() {
           </div>
 
           <div className="relative z-0 w-full group">
-            <label htmlFor="floating_role" className="block mb-2 text-sm font-medium text-gray-700">Role</label>
+            <label htmlFor="floating_role" className="block mb-2 text-sm font-medium text-white">Role</label>
             <input
               type="text"
               name="role"
               id="floating_role"
               className="peer block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-indigo-500"
-              placeholder="Your role"
+              placeholder="Teacher or Student"
               required
               onChange={handleInputChange}
             />
@@ -204,7 +206,7 @@ export default function SignupUser() {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+            className="w-full bg-gradient-to-r from-white  to-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105"
           >
             Sign Up
           </button>

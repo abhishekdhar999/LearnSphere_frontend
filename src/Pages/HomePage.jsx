@@ -4,6 +4,8 @@ import { OrbitControls, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import TorusOfStars from '../Components/TorusOfStars';
 import { Link } from 'react-router-dom';
+import { SiImessage } from "react-icons/si";
+import { FaPeopleGroup } from "react-icons/fa6";
 
 const HomePage = () => {
   function Scene() {
@@ -51,6 +53,26 @@ const HomePage = () => {
   </div>
 </div>
 
+
+<div className='flex justify-between md:mx-12 lg:mx-24 md:flex-row flex-col my-12'>
+  <div className='first-btn'>
+    <Link to={"/chats"}>
+  <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2 flex justify-between text ">
+    <span className=''>explore your chats</span>
+     <span className='mx-2  text-2xl'>< SiImessage /></span> 
+     </button>
+     </Link>
+  </div>
+
+  <div className='first-btn'>
+    <Link to={"/community"}>
+  <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2 flex justify-between text ">
+    <span className=''>explore your communities</span>
+     <span className='mx-2  text-2xl'><FaPeopleGroup /></span> 
+     </button>
+     </Link>
+  </div>
+</div>
 
       {/* Second Section */}
       <div className="containers p-4 lg:p-8">

@@ -17,7 +17,8 @@ import AboutUs from './Pages/AboutUs';
 import Community from './Pages/Community';
 import Workplace from './Pages/Workplace';
 import Review from './Pages/Review';
-
+import LobbyScreen from './Screens/Lobby';
+import RoomPage from './Screens/Room';
 function App() {
  
   // console.log("url base",process.env.REACT_APP_LEARNSPHERE_BASE_URL)
@@ -43,6 +44,9 @@ function App() {
         <Route path='/workplace' element={<Workplace/>}></Route>
         <Route path='/reviews/:id' element={<Review/>}></Route>
         
+
+        <Route path="/lobby" element={<LobbyScreen />} />
+        <Route path="/room/:roomId" element={<RoomPage />} />
       </Routes>
     </Router>
     </>

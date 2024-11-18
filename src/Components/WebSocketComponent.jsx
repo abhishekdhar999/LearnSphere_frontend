@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
-
+import { AiTwotoneMessage } from "react-icons/ai";
+import { useSocket } from '../Context/SocketProvider';
 export default function WebSocketComponent() {
-  const [socket, setSocket] = useState(null);
+  const socket = useSocket()
+  // const [socket, setSocket] = useState(null);
   const [chats, setChats] = useState([]); // Store chat list
   const [selectedUser, setSelectedUser] = useState(null); // Store selected user for chat
   const [chatId, setChatId] = useState(null); // Store the selected chat's ID
   const [messages, setMessages] = useState([]); // Store chat messages
   const [newMessage, setNewMessage] = useState(''); // Message input
   const [userId, setUserId] = useState('');
-
+  const [chatUser,setChatUser] = useState()
+const[notify,setNotify] = useState(false)
   useEffect(() => {
     const token = localStorage.getItem("accessTokken");
     
@@ -25,6 +28,9 @@ export default function WebSocketComponent() {
     }
   }, []);
 
+  useEffect(()=>{
+    
+  })
   // Fetch all chat data on component mount
   useEffect(() => {
     const fetchChats = async () => {
@@ -43,13 +49,51 @@ export default function WebSocketComponent() {
     };
 
     fetchChats();
-  }, []);
+  }, [selectedUser]);
+
+
+
+  const handleUserClick = (chat) => {
+ console.log("selected ",selectedUser)
+    if (chat.user[0]._id !== selectedUser) {
+     
+      setSelectedUser(chat.user[0]?._id);
+      setChatId(chat._id); // Set chatId to fetch messages for that chat
+      setMessages([]); // Clear messages while fetching new ones
+      setNotify(false)
+    }
+    
+  };
+
+  // find user by selected user id 
+  // useEffect(()=>{
+  //   console.log("selece",selectedUser)
+  //   const findUser = async (id) => {
+  //     console.log("id",id)
+  //     try {
+  //       const token = localStorage.getItem("accessTokken");
+  //       const response = await axios.get(`${process.env.REACT_APP_LEARNSPHERE_BASE_URL}/users/finduser/${id}`
+  //       , {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`, // Sending the token in the request headers
+  //           },
+  //           });
+  //           console.log("sele",response.data);
+  //           setChatUser(response.data);
+  //           } catch (error) {
+  //             console.error("Error fetching user:", error);
+  //             }
+  //             };
+
+  //         findUser(selectedUser);
+  // },[selectedUser ,handleUserClick])
 
   // Fetch messages whenever a new user (chat) is selected
   useEffect(() => {
     const getMessages = async () => {
+      console.log("in get messgae")
       if (!chatId) return;
-
+console.log("chatid",)
       try {
         const token = localStorage.getItem("accessTokken");
         const response = await axios.get(
@@ -69,18 +113,13 @@ export default function WebSocketComponent() {
     };
 
     getMessages();
-  }, [chatId]);
+  }, [chatId,selectedUser]);
 
-  const handleUserClick = (chat) => {
-    if (chat.user[1]._id !== selectedUser) {
-      setSelectedUser(chat.user[1]._id);
-      setChatId(chat._id); // Set chatId to fetch messages for that chat
-      setMessages([]); // Clear messages while fetching new ones
-    }
-  };
+  
 
   // Handle sending a new message (using WebSocket + API for redundancy)
   const handleSendMessage = async () => {
+    console.log("selected user",selectedUser)
     if (newMessage.trim() === '') return; // Do nothing if message is empty
 
     try {
@@ -103,66 +142,124 @@ export default function WebSocketComponent() {
           { sender: { _id: userId }, content: newMessage }, // mimic server structure
         ]);
         setNewMessage(""); // Clear input after sending
-      
+        const wsMessage = { chatId, sender: { _id: userId }, content: newMessage,reciever:{_id:selectedUser} };
+        // socket.emit('sendMessage', wsMessage);
+        socket.emit("sendMessage",JSON.stringify(wsMessage));
         // Send the message via WebSocket as well
-        if (socket && socket.readyState === WebSocket.OPEN) {
-          const wsMessage = { chatId, sender: { _id: userId }, content: newMessage };
-          socket.send(JSON.stringify(wsMessage)); // Send message via WebSocket
-        }
+        // if (socket && socket.readyState === WebSocket.OPEN) {
+        //   
+        //   socket.send(JSON.stringify(wsMessage)); // Send message via WebSocket
+        // }
       }
     } catch (error) {
       console.log("Error sending message:", error);
     }
   };
-
+// for recieving message
   useEffect(() => {
-    const ws = new WebSocket(process.env.REACT_APP_WEB_SOCKET_URL);
-    setSocket(ws);
+    socket.on('receiveMessage', (newMessage) => {
 
-    // Listen for incoming messages from WebSocket
-    ws.onmessage = (event) => {
-      try {
-        const receivedMessage = JSON.parse(event.data);
-        console.log("Received WebSocket message:", receivedMessage);
+      console.log("new message", newMessage);
+      const receivedMessage = JSON.parse(newMessage);
+      setMessages((prevMessages) => [
+                  ...prevMessages,
+                  {
+                    sender: receivedMessage.sender,
+                    content: receivedMessage.content,
+        
+                  }
+                ]);
+      // setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
 
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            sender: receivedMessage.sender,
-            content: receivedMessage.content,
-          }
-        ]);
-      } catch (error) {
-        console.error("Error parsing WebSocket message:", error);
-      }
-    };
-
+    // Clean up on component unmount
     return () => {
-      ws.close();
+      socket.off('receiveMessage');
     };
+//     const ws = new WebSocket(process.env.REACT_APP_WEB_SOCKET_URL);
+//     setSocket(ws);
+
+//     // Listen for incoming messages from WebSocket
+//     ws.onmessage = (event) => {
+//       try {
+//         const receivedMessage = JSON.parse(event.data);
+//         console.log("Received WebSocket message:", receivedMessage);
+
+//         if (receivedMessage.receiver === userId) {
+//           // Trigger notification
+//           console.log("match")
+// setNotify(true);
+//           displayNotification(receivedMessage.content);
+//         }else{
+//           console.log("no match")
+//         }
+
+//         setMessages((prevMessages) => [
+//           ...prevMessages,
+//           {
+//             sender: receivedMessage.sender,
+//             content: receivedMessage.content,
+
+//           }
+//         ]);
+//       } catch (error) {
+//         console.error("Error parsing WebSocket message:", error);
+//       }
+//     };
+
+//     return () => {
+//       ws.close();
+//     };
   }, []);
 
+  const displayNotification = (messageContent) => {
+    console.log("in displayNotification")
+    if (Notification.permission === "granted") {
+      new Notification("New Message", {
+        body: messageContent,
+        icon: '/rb_7965.png'
+      });
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          new Notification("New Message", {
+            body: messageContent,
+            icon: '/rb_7965.png'
+          });
+        }
+      });
+    }
+  };
+
   return (
+    <>
+
+{/* Notification Icon */}
+{notify && (
+        <div className="absolute top-4 right-4 bg-red-500 rounded-full p-2 text-white cursor-pointer">
+          <AiTwotoneMessage size={24} />
+        </div>
+      )}
+
     <div className="flex h-[600px]">
       {/* Sidebar */}
       <div className="w-1/3 border-r border-gray-300 p-4">
         <h3 className="text-lg font-semibold mb-4">Chats</h3>
         <ul className="space-y-2">
-          {chats.map((chat) => (
-            <li
-              key={chat.user[1]._id}
-              onClick={() => handleUserClick(chat)}
-              className={`cursor-pointer p-3 rounded-lg ${
-                selectedUser === chat.user[1]._id
-                  ? 'bg-blue-100'
-                  : 'hover:bg-gray-100'
-              }`}
-            >
-              {chat.user[1]._id===userId ? chat.user[0].name : chat.user[1].name }
-              
-            </li>
-          ))}
-        </ul>
+  {chats.map((chat) => (
+    <li
+      key={chat.user[0]._id}
+      onClick={() => handleUserClick(chat)} // No condition here; clicking any user calls the function
+      className={`cursor-pointer text p-3 rounded-lg text-black bg-white font-bold ${
+        selectedUser === chat.user[0]._id
+          ? 'bg-blue-100' // Highlight selected user
+          : 'hover:bg-gray-300'
+      }`}
+    >
+      {chat.user[1]._id === userId ? chat.user[0].name : chat.user[1].name}
+    </li>
+  ))}
+</ul>
       </div>
 
       {/* Chat Box */}
@@ -171,8 +268,9 @@ export default function WebSocketComponent() {
           <>
             {/* Chat Header */}
             <div className="p-4 bg-gray-200 border-b border-gray-300">
-              <h3 className="text-lg font-semibold">
-                {chats.find((chat) => chat.user[1]._id === selectedUser)?.user[1].name}
+              <h3 className="text-lg font-semibold text">
+                {chats.find((chat) => chat.user[0]._id === selectedUser)?.user[0]?.name}
+                
               </h3>
             </div>
 
@@ -223,6 +321,7 @@ export default function WebSocketComponent() {
         )}
       </div>
     </div>
+    </>
   );
 }
 
@@ -233,19 +332,3 @@ export default function WebSocketComponent() {
 
 
 
-// WebSocket Connection (mine code)
-  // useEffect(() => {
-  //   const ws = new WebSocket('ws://localhost:3001');
-  //   setSocket(ws);
-
-  //   // Listen for incoming messages from WebSocket
-  //   ws.onmessage = (event) => {
-  //     const receivedMessage = event.data;
-  //     setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-  //   };
-
-  //   // Cleanup on component unmount
-  //   return () => {
-  //     ws.close();
-  //   };
-  // }, []);
