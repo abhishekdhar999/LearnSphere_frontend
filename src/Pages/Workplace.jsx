@@ -5,8 +5,10 @@ import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 import VideoCall from '../Components/VideoCall';
 import { AiTwotoneMessage } from "react-icons/ai";
+import { useSocket } from '../Context/SocketProvider';
 export default function Workplace() {
-  const [socket, setSocket] = useState(null);
+  const socket = useSocket()
+  // const [socket, setSocket] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -129,10 +131,13 @@ const [showRemove, setShowRemove] = useState({});
         ]);
         setNewMessage(''); // Clear input after sending
 
-        if (socket && socket.readyState === WebSocket.OPEN) {
-          const wsMessage = { chatId: community.groupChatId, sender: { _id: userId }, content: newMessage };
-          socket.send(JSON.stringify(wsMessage)); // Send message via WebSocket
-        }
+        const wsMessage = { chatId: community.groupChatId, sender: { _id: userId }, content: newMessage };
+        // socket.emit('sendMessage', wsMessage);
+        socket.emit("sendMessage",JSON.stringify(wsMessage));
+        // if (socket && socket.readyState === WebSocket.OPEN) {
+        //   const wsMessage = { chatId: community.groupChatId, sender: { _id: userId }, content: newMessage };
+        //   socket.send(JSON.stringify(wsMessage)); // Send message via WebSocket
+        // }
       }
     } catch (error) {
       console.log('Error sending message:', error);
@@ -170,33 +175,60 @@ console.log("msg ",response.data)
 
   // Set up WebSocket for real-time messages
   useEffect(() => {
-    const ws = new WebSocket(process.env.REACT_APP_WEB_SOCKET_URL);
-    setSocket(ws);
+    socket.on('receiveMessage', (newMessage) => {
 
-    ws.onmessage = (event) => {
-      try {
-        const receivedMessage = JSON.parse(event.data);
-        console.log('Received WebSocket message:', receivedMessage);
-
-
-        // if (receivedMessage.receiverId === userId) {
-        //   // Trigger notification
-        //   displayNotification(receivedMessage.content);
-        // }
+      console.log("new message", newMessage);
+      const receivedMessage = JSON.parse(newMessage);
+      setMessages((prevMessages) => [
+                  ...prevMessages,
+                  {
+                    sender: receivedMessage.sender,
+                    content: receivedMessage.content,
         
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { sender: receivedMessage.sender, content: receivedMessage.content },
-        ]);
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
-      }
-    };
+                  }
+                ]);
+      // setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
 
+    // Clean up on component unmount
     return () => {
-      ws.close();
+      socket.off('receiveMessage');
     };
-  },[]);
+//     const ws = new WebSocket(process.env.REACT_APP_WEB_SOCKET_URL);
+//     setSocket(ws);
+
+//     // Listen for incoming messages from WebSocket
+//     ws.onmessage = (event) => {
+//       try {
+//         const receivedMessage = JSON.parse(event.data);
+//         console.log("Received WebSocket message:", receivedMessage);
+
+//         if (receivedMessage.receiver === userId) {
+//           // Trigger notification
+//           console.log("match")
+// setNotify(true);
+//           displayNotification(receivedMessage.content);
+//         }else{
+//           console.log("no match")
+//         }
+
+//         setMessages((prevMessages) => [
+//           ...prevMessages,
+//           {
+//             sender: receivedMessage.sender,
+//             content: receivedMessage.content,
+
+//           }
+//         ]);
+//       } catch (error) {
+//         console.error("Error parsing WebSocket message:", error);
+//       }
+//     };
+
+//     return () => {
+//       ws.close();
+//     };
+  }, []);
 
 // fetch all users
 useEffect(()=>{
