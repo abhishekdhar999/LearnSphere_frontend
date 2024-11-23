@@ -31,8 +31,10 @@ const HomePage = () => {
           <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500  focus:ring-4 focus:outline-none focus:ring-purple-200">
             <span className="relative px-5 py-2.5 bg-white rounded-md dark:bg-gray-900 ">
               - To use this app, use below credentials - <br />
-              - email : vijay@gmail.com - <br />
-              - password : vijay -
+              - email : abhishek@gmail.com - <br />
+              - password : abhishek
+              - email : amitabh@gmail.com - <br />
+              - password : amitabh
             </span>
           </button>
         </div>
