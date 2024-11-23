@@ -45,8 +45,14 @@ const LobbyScreen = () => {
   }, [socket, handleJoinRoom]);
 
   return (
+    <>
+    <div className="flex my-6 text-white text text-2xl font-medium justify-center">
+    <h1>To Check the video App working login with another id & join the same room</h1>
+    </div>
     <div className="bg-white p-8 rounded shadow-md max-w-md mx-auto mt-10">
+        
     <h1 className="text-2xl font-semibold text-gray-800 mb-4">Lobby</h1>
+    
     <form onSubmit={handleSubmitForm}>
       <div className="mb-4">
         <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
@@ -85,6 +91,7 @@ const LobbyScreen = () => {
       </button>
     </form>
   </div>
+  </>
   );
 };
 

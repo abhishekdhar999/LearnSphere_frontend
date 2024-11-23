@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Whiteboard from '../Components/Whiteboard';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { CiVideoOn } from "react-icons/ci";
 import {jwtDecode} from 'jwt-decode';
 import VideoCall from '../Components/VideoCall';
 import { AiTwotoneMessage } from "react-icons/ai";
 import { useSocket } from '../Context/SocketProvider';
+import { Link } from 'react-router-dom';
 export default function Workplace() {
   const socket = useSocket()
   // const [socket, setSocket] = useState(null);
@@ -343,6 +345,17 @@ communityId:community._id
       <img className='h-[600px] rounded-lg shadow-xl shadow-white ' src="https://img.freepik.com/free-vector/freelancer-coworking-business-center-banner_81522-4517.jpg?t=st=1730566288~exp=1730569888~hmac=25b4ac8278a5ce5efb56fe9d366dbabb3800fca9e673a75d80007a65befe013a&w=2000" alt="" />
     </div>
       <Whiteboard community={community} />
+<div className='flex justify-center my-6'>
+  <Link to={"/lobby"}>
+      <button type="button" class="text-white bg-[#1da1f2] hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-bold text rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 me-2 mb-2 mt-1">
+     <span className='font-extrabold text-2xl mx-4'><CiVideoOn /></span> 
+Start Instant Meeting
+</button>
+</Link>
+</div>
+
+
+
 {model && (
   <div className='my-12' >
 <form class="flex bg-white items-center max-w-lg mx-auto">   
@@ -492,7 +505,7 @@ communityId:community._id
       </div>
 
 
-      <VideoCall community={community}></VideoCall>
+      {/* <VideoCall community={community}></VideoCall> */}
     </>
   );
 }

@@ -32,7 +32,7 @@ const HomePage = () => {
             <span className="relative px-5 py-2.5 bg-white rounded-md dark:bg-gray-900 ">
               - To use this app, use below credentials - <br />
               - email : abhishek@gmail.com - <br />
-              - password : abhishek
+              - password : abhishek <br />
               - email : amitabh@gmail.com - <br />
               - password : amitabh
             </span>
@@ -67,7 +67,7 @@ const HomePage = () => {
   </div>
 
   <div className='first-btn'>
-    <Link to={"/community"}>
+    <Link to={"/communtiy"}>
   <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2 flex justify-between text ">
     <span className=''>explore your communities</span>
      <span className='mx-2  text-2xl'><FaPeopleGroup /></span> 
