@@ -344,7 +344,10 @@ communityId:community._id
     <div className='flex justify-center my-12'>
       <img className='h-[600px] rounded-lg shadow-xl shadow-white ' src="https://img.freepik.com/free-vector/freelancer-coworking-business-center-banner_81522-4517.jpg?t=st=1730566288~exp=1730569888~hmac=25b4ac8278a5ce5efb56fe9d366dbabb3800fca9e673a75d80007a65befe013a&w=2000" alt="" />
     </div>
-      <Whiteboard community={community} />
+    <div className=' overflow-hidden'>
+    <Whiteboard community={community} />
+    </div>
+     
 <div className='flex justify-center my-6'>
   <Link to={"/lobby"}>
       <button type="button" class="text-white bg-[#1da1f2] hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-bold text rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 me-2 mb-2 mt-1">
@@ -401,11 +404,11 @@ Start Instant Meeting
 )}
 
 
-      <div className='flex h-screen'>
+      <div className='flex md:flex-row flex-col h-screen'>
         {/* Left Section */}
-        <div className='w-1/4 bg-gray-800 p-4 text-white'>
+        <div className='md:w-1/4 bg-gray-800 p-4 text-white'>
           <div className='flex justify-between'>
-          <div className='text-xl font-semibold mb-4 border-b pb-2'>Participants</div>
+          <div className='text-xl font-semibold mb-4 border-b pb-2 text-white'>Participants</div>
 
           <div className='mt-2'>
             <button onClick={openModel}>
@@ -450,7 +453,7 @@ Start Instant Meeting
         <div className='w-1 bg-gray-600'></div>
 
         {/* Right Section */}
-        <div className='w-3/4 flex flex-col p-6'>
+        <div className='md:w-3/4 flex flex-col p-6'>
           {/* Messages */}
           <div className='flex-1 overflow-y-auto bg-white rounded-lg shadow-lg p-4'>
             <h1 className='text-xl font-semibold mb-4'>Messages</h1>
@@ -463,7 +466,7 @@ Start Instant Meeting
           msg?.sender?._id === userId ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'
         }`}
       >
-        <div className='flex justify-between items-center'>
+        <div className='flex md:flex-row flex-col justify-between items-center'>
           {/* Message content on the left */}
           <div className='w-3/4 text-left border-r-2 border-gray-400 pr-4'>
             {msg.content}

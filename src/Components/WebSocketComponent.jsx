@@ -242,10 +242,10 @@ console.log("chatid",)
         </div>
       )}
 
-    <div className="flex h-[600px]">
+    <div className="flex h-[600px] md:flex-row flex-col">
       {/* Sidebar */}
-      <div className="w-1/3 border-r border-gray-300 p-4">
-        <h3 className="text-lg font-semibold mb-4">Chats</h3>
+      <div className="md:w-1/3 w-full border-r border-gray-300 p-4">
+        <h3 className="text-lg font-semibold mb-4 text-white">Chats</h3>
         <ul className="space-y-2">
   {chats.map((chat) => (
     <li
@@ -264,7 +264,7 @@ console.log("chatid",)
       </div>
 
       {/* Chat Box */}
-      <div className="w-2/3 flex flex-col">
+      <div className="md:w-2/3 flex flex-col">
         {selectedUser ? (
           <>
             {/* Chat Header */}

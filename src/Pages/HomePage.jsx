@@ -48,9 +48,11 @@ const HomePage = () => {
       <div className="flex justify-center items-center ">
   <div className="block md:hidden text-center bg-pink-200 text-black p-4 sm:mx-12 mx-2 rounded-2xl">
     <span className="text-gray-700">
-      To use this app, use below credentials  <br />
-      email : vijay@gmail.com <br />
-      password : vijay
+    - To use this app, use below credentials - <br />
+              - email : abhishek@gmail.com - <br />
+              - password : abhishek <br />
+              - email : amitabh@gmail.com - <br />
+              - password : amitabh
     </span>
   </div>
 </div>
